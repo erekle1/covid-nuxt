@@ -27,6 +27,7 @@ export default {
 
   methods: {
     async submit() {
+
       if (this.$refs.form.validate()) {
 
         this.$auth.loginWith('laravelSanctum', {
@@ -34,12 +35,9 @@ export default {
             email: this.email,
             password: this.password,
           },
-        }).then(() => {
-          this.$router.push(this.localePath('stats'))
-          this.$toast.success('Logged In');
-        })
-          .catch(err => {
-            this.$toast.error(err.data.response);
+        }).then((res) => {
+          this.$router.push('/stats')
+        }).catch((err) => {
             console.log(err.message)
           });
       }

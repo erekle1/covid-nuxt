@@ -18,7 +18,7 @@
         {{ $t('reset_form') }}
       </v-btn>
     </v-form>
-    <flash-message message="" :show="errors.length>0"/>
+<!--    <flash-message message="" :show="errors.length>0"/>-->
   </div>
 </template>
 <script>
@@ -47,21 +47,20 @@ export default {
     async submit() {
       if (this.$refs.form.validate()) {
         try {
+          // await this.$axios.$get('sanctum/csrf-cookie')
           await this.$axios.post('/api/register', {
             name: this.name,
             email: this.email,
             password: this.password,
             password_confirmation: this.confirmPassword
-          }).then(res => {
-            this.errors = res.data.errors;
-          }).catch(e => {
-            console.log(e);
-          });
-          await this.$auth.loginWith('laravelSanctum', {
+          })
+          let user = await this.$auth.loginWith('laravelSanctum', {
               data: {email: this.email, password: this.password}
             }
           );
-
+          if (user) {
+            this.nuxt.redirect(this.localePath('/'))
+          }
         } catch (e) {
 
         }

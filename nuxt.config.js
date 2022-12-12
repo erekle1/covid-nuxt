@@ -29,10 +29,8 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    './plugins/axios.js',
     './plugins/i18n.js',
     './plugins/vue-flag-icon.js',
-    './plugins/auth.js'
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -81,10 +79,10 @@ export default {
     credentials: true,
   },
   auth: {
-    redirects: {
+    redirect: {
       login: '/auth/login',
       logout: '/auth/login',
-      callback: '/',
+      callback: false,
       home: '/'
     },
     strategies: {
@@ -102,7 +100,9 @@ export default {
         },
       }
     },
-
+    plugins: [
+      './plugins/auth.js'
+    ]
   },
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
